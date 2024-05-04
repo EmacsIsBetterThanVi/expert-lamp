@@ -22,7 +22,9 @@ git clone $1 || exit 1
 else
 git clone -b "/refs/head/$1" --single-branch https://github.com/$2/expert-lamp.git || exit 1
 fi
-[[ -f configure ]] && ./configure
+cd $1
+[[ -f install.sh ]] && ./install.sh && INSTALLED=true
+[[ -f configure ]] && ./configure && INSTALLED=true
 [[ -f CMakeLists.txt ]] && cmake
 [[ -f Makefile ]] && make && make install && INSTALLED=true && make clean
 if [[ -f INSTALL.generate ]]; then

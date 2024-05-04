@@ -25,4 +25,4 @@ refresh
 touch ~/.config/expert-lamp.srclist
 touch ~/.config/expert-lampI.pkglist
 touch ~/.config/expert-lampL.pkglist
-lamp update
+touch ~/.config/expert-lamp.pkglist
