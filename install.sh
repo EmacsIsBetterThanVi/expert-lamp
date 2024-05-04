@@ -20,9 +20,6 @@ REFRESH=true
 fi
 [[ -d ~/.config ]] || mkdir ~/.config
 [[ -d ~/.scripts ]] || mkdir ~/.scripts
-mv GITPKG.sh ~/.scripts
+mv generate.sh ~/.scripts
 refresh
-touch ~/.config/expert-lamp.srclist
-touch ~/.config/expert-lampI.pkglist
-touch ~/.config/expert-lampL.pkglist
-lamp update
+generate.config
