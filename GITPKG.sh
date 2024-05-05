@@ -88,7 +88,9 @@ for i in $(cat ~/.config/expert-lamp.srclist); do
 wget https://raw.githubusercontent.com/EmacsIsBetterThanVi/expert-lamp/main/PKGLIST
 cat PKGLIST >> ~/.config/expert-lamp.pkglist
 done
+cd $MYDIR
 nuke ~/.gitINSTALL
+unset MYDIR
 }
 function lamp(){
 LAMP=$1
