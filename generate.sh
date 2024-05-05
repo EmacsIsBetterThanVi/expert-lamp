@@ -76,7 +76,7 @@ echo "$2" >> generate.list
 fi
 elif [[ $1 == "generate" ]]; then
 if [[ $4 != ""  &&  $# > 3 ]]; then
-cd $$4
+cd $4
 fi
 if [[ $3 == "" || $# < 3 ]]; then
 OUT=$PWD
