@@ -227,9 +227,9 @@ if test ! -d "$HOME/.generated/jars"; then
 mkdir "$HOME/.generated/jars"
 echo "#!/bin/bash" > "$HOME/.generated/.jars"
 fi
-echo "-arch $(uname -m)" > ~/.config/generate.config
 if [[ $(uname) == "Darwin" ]]; then
 if cc -v 2>&1 | grep "clang"; then
+echo "-arch $(uname -m)" > ~/.config/generate.config
 echo "-I/usr/local/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -I/usr/local/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12" >> ~/.config/generate.config
 echo "-iquote ~/.headers/" >> ~/.config/generate.config
 echo "-syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk" >> ~/.config/generate.config
@@ -237,12 +237,14 @@ echo "-lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefaul
 echo "-L/usr/local/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/lib/ -lpython3.12" >> ~/.config/generate.config
 fi
 if cc -v 2>&1 | grep "gcc"; then
+echo "-A $(uname -m)" > ~/.config/generate.config
 echo "--syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk" >> ~/.config/generate.config
 echo "-lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/lib/darwin/libclang_rt.osx.a" >> ~/.config/generate.config
 fi
 fi
 if [[ $(uname -r) == *arch* ]]; then
-echo "-plugin /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/liblto_plugin.so -plugin-opt=/usr/lib/gcc/i686-pc-linux-gnu/12.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccISBgBd.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -pie /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../../Scrt1.o /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../../crti.o /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/crtbeginS.o -L/usr/lib/gcc/i686-pc-linux-gnu/12.1.0 -L/usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../.. -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/crtendS.o /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../../crtn.o" >> ~/.config/generate.config
+echo "--architecture $(uname -m)" > ~/.config/generate.config
+echo "--plugin /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/liblto_plugin.so -plugin-opt=/usr/lib/gcc/i686-pc-linux-gnu/12.1.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccISBgBd.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -pie /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../../Scrt1.o /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../../crti.o /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/crtbeginS.o -L/usr/lib/gcc/i686-pc-linux-gnu/12.1.0 -L/usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../.. -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/crtendS.o /usr/lib/gcc/i686-pc-linux-gnu/12.1.0/../../../crtn.o" >> ~/.config/generate.config
 fi
 }
 function generate.pkg(){
