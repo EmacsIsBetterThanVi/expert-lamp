@@ -19,6 +19,20 @@ exit 1
 fi
 elif [[ $2 == "local" ]]; then
 git clone $1
+elif [[ $2 == "pkglist"
+if git ls-remote https://github.com/EmacsIsBetterThanVi/expert-lamp.git | grep -e "refs/heads/$1" ; then
+git clone -b "$1" --single-branch https://github.com/EmacsIsBetterThanVi/expert-lamp.git
+elif cat ~/.config/expert-lamp.pkglist | grep -e "-$1:" ; then
+FOUND=false
+for i in $(cat ~/.config/expert-lamp.srclist); do
+if git ls-remote https://github.com/$i/expert-lamp.git | grep -e "refs/heads/$1" ; then
+git clone -b "$1" --single-branch https://github.com/$i/expert-lamp.git
+fi
+done
+! $FOUND && PKGREPO=$(cat ~/.config/expert-lamp.pkglist | grep -e "-$1:") && git clone ${PKGREPO#*: }
+else
+exit 1
+fi
 else
 git clone -b "/refs/head/$1" --single-branch https://github.com/$2/expert-lamp.git
 fi
