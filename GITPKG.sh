@@ -19,7 +19,7 @@ exit 1
 fi
 elif [[ $2 == "local" ]]; then
 git clone $1
-elif [[ $2 == "pkglist"
+elif [[ $2 == "pkglist" ]]; then
 if git ls-remote https://github.com/EmacsIsBetterThanVi/expert-lamp.git | grep -e "refs/heads/$1" ; then
 git clone -b "$1" --single-branch https://github.com/EmacsIsBetterThanVi/expert-lamp.git
 elif cat ~/.config/expert-lamp.pkglist | grep -e "-$1:" ; then
