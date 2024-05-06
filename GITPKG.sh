@@ -44,7 +44,7 @@ echo $1 >> ~/.config/expert-lampI.pkglist
 whereis $1 >> ~/.config/expert-lampL.pkglist
 fi
 cd $MYDIR
-rm -rf ~/.gitINSTALL
+[[ ! $3 == "noNuke" ]] && rm -rf ~/.gitINSTALL
 unset MYDIR
 unset INSTALLED
 unset PKGREPO
