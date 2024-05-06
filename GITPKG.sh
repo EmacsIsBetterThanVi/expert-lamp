@@ -13,7 +13,7 @@ if git ls-remote https://github.com/$i/expert-lamp.git | grep -e "refs/heads/$1"
 git clone -b "$1" --single-branch https://github.com/$i/expert-lamp.git
 fi
 done
-! FOUND && PKGREPO= $(cat ~/.config/expert-lamp.pkglist | grep -e "-$1:") && git clone ${PKGREPO#-$1:}
+! $FOUND && PKGREPO=$(cat ~/.config/expert-lamp.pkglist | grep -e "-$1:") && git clone ${PKGREPO#*: }
 else
 exit 1
 fi
