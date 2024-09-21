@@ -1,6 +1,5 @@
-# Generate
-Generate is an automatic build system which idetifies the compiler required to build a project, and can generate a full build instuction file on its own.
-
+# CD
+A collection of CD commands including vcd(Verbose CD), ccd(Command CD), vccd(Verbose Command CD)
 # Instalation Instuctions
 ## Manual Instalation
 1. Clone this branch
