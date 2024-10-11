@@ -1,6 +1,15 @@
 #!/bin/bash
 export PATH="$HOME/.generated/:$PATH"
 source ~/.generated/.jars
+function generate.Rconfig(){
+  ls | grep "generate.config" > /dev/null
+  if [[ $? == 0 ]]; then
+    cat ./generate.config | grep -e $1
+  else
+    cat ~/.config/generate.config | grep -e $1
+  fi
+}
+alias generate.Lconfig="cp ~/.config/generate.config ."
 function generate() {
 if [[ $1 == "clean" ]]; then
 rm -rf $(cat generate.list)
@@ -59,7 +68,7 @@ cd $3
 fi
 ls *.o 2> /dev/null
 if [[ $? == 0 ]]; then
-ld $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.o $(cat ~/.config/generate.config | grep -e "-l") -o $2
+ld $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.o $(generate.Rconfig "-l") -o $2
 echo "$2" >> generate.list
 fi
 ls *.class 2> /dev/null
@@ -71,15 +80,15 @@ echo "$2.jar" >> generate.list
 fi
 ls *.op 2> /dev/null
 if [[ $? == 0 ]]; then
-ld $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.op $(cat ~/.config/generate.config | grep -e "-l") -o $2
+ld $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.op $(generate.Rconfig "-l") -o $2
 echo "$2" >> generate.list
 fi
 ls *.flo 2>/dev/null
 if [[ $? == 0 ]]; then
 if [[ "$OSTYPE" == "darwin"* ]]; then
-ld -dylib -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.flo $(cat ~/.config/generate.config | grep -e "-l") -ldl -o $2
+ld -dylib -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.flo $(generate.Rconfig "-l") -ldl -o $2
 else
-ld -export-dynamic -shared -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.flo $(cat ~/.config/generate.config | grep -e "-l") -ldl -o $2
+ld -export-dynamic -shared -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.flo $(generate.Rconfig "-l") -ldl -o $2
 fi
 fi
 elif [[ $1 == "generate" ]]; then
@@ -102,12 +111,12 @@ echo "$2.flo" >> $OUT/generate.list
 fi
 ls $2".c" 2> /dev/null
 if [[ $? == 0 ]]; then
-cc -c $2.c -o $OUT/$2.o $(cat ~/.config/generate.config | grep -e "-iquote")
+cc -c $2.c -o $OUT/$2.o $(generate.Rconfig "-iquote")
 echo "$2.o" >> $OUT/generate.list
 fi
 ls $2".cpp" 2> /dev/null
 if [[ $? == 0 ]]; then
-c++ -c $2.c -o $OUT/$2.opp $(cat ~/.config/generate.config | grep -e "-iquote")
+c++ -c $2.c -o $OUT/$2.opp $(generate.Rconfig "-iquote")
 echo "$2.o" >> $OUT/generate.list
 fi
 ls $2".java" 2> /dev/null
@@ -119,14 +128,14 @@ ls $2.pyx 2> /dev/null
 if [[ $? == 0 ]]; then
 cython --embed $2.pyx -o $OUT/$2.pyx.c
 echo "$2.pyx.c" >> $OUT/generate.list
-cc $OUT/$2.pyx.c -c $(cat ~/.config/generate.config | grep -e "-I") -o $OUT/$2.op
+cc $OUT/$2.pyx.c -c $(generate.Rconfig "-I") -o $OUT/$2.op
 echo "$2.op" >> $OUT/generate.list
 fi
 ls $2.py 2> /dev/null
 if [[ $? == 0 ]]; then
 cython --embed $2.py -o $OUT/$2.py.c
 echo "$2.py.c" >> $OUT/generate.list
-cc $OUT/$2.py.c -c $(cat ~/.config/generate.config | grep -e "-I") $(cat ~/.config/generate.config | grep -e "-iquote") -o $OUT/$2.op
+cc $OUT/$2.py.c -c $(generate.Rconfig "-I") $(generate.Rconfig "-iquote") -o $OUT/$2.op
 echo "$2.op" >> $OUT/generate.list
 fi
 elif [[ $1 == "sh" ]]; then
