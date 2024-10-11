@@ -6,10 +6,10 @@ if [[ $1 == "clean" ]]; then
 rm -rf $(cat generate.list)
 rm -f generate.list
 elif [[ $1 == "help" ]]; then
-echo "A auto build tool, which identifies the lanuage required to compile a program"
+echo "A auto build tool, which identifies the lanugage required to compile a program"
 echo "Usage: generate <subcommand or target>"
 echo "Subcommands:"
-echo "generate <file name> [OUTPUT path] [INPUT path]: compiles the target file name"
+echo "generate <file name> [OUTPUT path] [INPUT path] [ADDIONAL OPTIONS]: compiles the target file name"
 echo "link <output file> <output directory>: links all compiled files "
 echo "built [-options] <file name> <output>: compiles the target file name, and links it into the out put file"
 echo "options:"
@@ -74,6 +74,14 @@ if [[ $? == 0 ]]; then
 ld $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.op $(cat ~/.config/generate.config | grep -e "-l") -o $2
 echo "$2" >> generate.list
 fi
+ls *.flo 2>/dev/null
+if [[ $? == 0 ]]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
+ld -dylib -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.flo $(cat ~/.config/generate.config | grep -e "-l") -ldl -o $2
+else
+ld -export-dynamic -shared -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(cat ~/.config/generate.config | grep -e "-arch") $(cat ~/.config/generate.config | grep -e "-syslibroot") *.flo $(cat ~/.config/generate.config | grep -e "-l") -ldl -o $2
+fi
+fi
 elif [[ $1 == "generate" ]]; then
 if [[ $4 != ""  &&  $# > 3 ]]; then
 cd $4
@@ -82,6 +90,15 @@ if [[ $3 == "" || $# < 3 ]]; then
 OUT=$PWD
 else
 OUT=$3
+fi
+ls $2".fl" 2> /dev/null
+if [[ $? == 0 ]]; then
+fluid -c $2.c -o $OUT/$2.flc -l $OUT/$2.list - $OUT/$2.flh
+echo "$2.flh" >> $OUT/generate.list
+echo "$2.list" >> $OUT/generate.list
+echo "$2.flc" >> $OUT/generate.list
+cc -c $OUT/$2.flc -o $OUT/$2.flo -fPIC $(fluid --header-src -c)
+echo "$2.flo" >> $OUT/generate.list
 fi
 ls $2".c" 2> /dev/null
 if [[ $? == 0 ]]; then
@@ -133,6 +150,7 @@ fi
 echo "mkdir build ." > $TARGET.generate
 for i in $(ls | grep -e ".c" -e ".java" -e ".pyx" -e ".cpp" -e ".py"); do
 y=${i##*/}
+y=${y%.fl}
 y=${y%.c}
 y=${y%.cpp}
 y=${y%.java}
