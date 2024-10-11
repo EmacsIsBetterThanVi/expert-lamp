@@ -55,7 +55,8 @@ done
 fi
 if $INSTALLED ; then
 echo $1 >> ~/.config/expert-lampI.pkglist
-whereis $1 >> ~/.config/expert-lampL.pkglist
+[[ $(whereis $1) != "$1:" ]] whereis $1 >> ~/.config/expert-lampL.pkglist
+[[ $(whereis $1) == "$1:" ]] echo "$1:$HOME/.scripts/$1"
 fi
 cd $MYDIR
 [[ ! $3 == "noNuke" ]] && rm -rf ~/.gitINSTALL
