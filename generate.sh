@@ -2,7 +2,7 @@
 export PATH="$HOME/.generated/:$PATH"
 source ~/.generated/.jars
 function generate.Rconfig(){
-  ls | grep "generate.config" > /dev/null
+  cat ./generate.config 2>/dev/null | grep -e $1 0>/dev/null
   if [[ $? == 0 ]]; then
     cat ./generate.config | grep -e $1
   else
