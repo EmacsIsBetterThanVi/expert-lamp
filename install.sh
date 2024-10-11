@@ -28,8 +28,7 @@ REFRESH=true
 fi
 [[ -d ~/.config ]] || mkdir ~/.config
 [[ -d ~/.scripts ]] || mkdir ~/.scripts
-mv generate.sh ~/.scripts
+mv cd.sh ~/.scripts
 for i in $(ls ~/.scripts/*); do
     source $i
 done
-generate.config

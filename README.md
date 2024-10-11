@@ -1,5 +1,5 @@
-# Generate
-Generate is an automatic build system which idetifies the compiler required to build a project, and can generate a full build instuction file on its own.
+# CD
+CD is a small collection of commands which change the behavior of entering a directory. Included are vcd(Verbose Change Directory), ccd(Command Change Directory) and vccd(Verbose Command Change Directory)
 
 # Instalation Instuctions
 ## Manual Instalation
