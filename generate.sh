@@ -86,7 +86,12 @@ fi
 ls *.flo 2>/dev/null
 if [[ $? == 0 ]]; then
 if [[ "$OSTYPE" == "darwin"* ]]; then
+objdump *.flo | grep "_main"
+if [[ $? == 0 ]]; then
+ld -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.flo $(generate.Rconfig "-l") -ldl -o $2
+else
 ld -dylib -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.flo $(generate.Rconfig "-l") -ldl -o $2
+fi
 else
 ld -export-dynamic -shared -rpath "$PWD:$HOME/.generated/.fluid:$HOME/.fluid" $(generate.Rconfig "-arch") $(generate.Rconfig "-syslibroot") *.flo $(generate.Rconfig "-l") -ldl -o $2
 fi
