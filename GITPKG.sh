@@ -41,6 +41,7 @@ fi
 [[ -f configure ]] && ./configure && INSTALLED=true
 [[ -f CMakeLists.txt ]] && cmake
 [[ -f Makefile ]] && make && make install && INSTALLED=true && make clean
+[[ -f PKGBUILD ]] && makepkg && INSTALLED=true
 if [[ -f INSTALL.generate ]]; then
 generate install INSTALL && INSTALLED=true
 generate clean
