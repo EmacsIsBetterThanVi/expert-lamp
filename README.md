@@ -1,8 +1,6 @@
-# expert-lamp
-A repository to contain the packages for expert-lamp, including the package list.
+# croslockshutdown
+A program written in C that on specific cros devices (chromebooks) with Arch Linux installed, allows for the screenlock key to instead shutdown the system after ~3 seconds.
 
-Expert lamp is an open source, package manager that uses git branches as packages.
-
-# Instalation Instuctions
-1. Clone this branch
-2. Run install.sh
+# Running CLSD
+1. Run gcc powerkey
+2. Run sudo ./a.out
