@@ -22,7 +22,8 @@ int main(){
   unsigned char scn=0;
   bool down = false;
   time_t now = time(NULL);
-  printf("Shutdown driver started at utime %d\n", now);
+  printf("Shutdown driver started at utime %d, forking to background.\n", now);
+  if (fork()){
   while(true){
     C = (char)fgetc(file);
     if(C == 'O' && scn==0){
@@ -49,5 +50,8 @@ int main(){
       scn--;
     }
   }
+  }
+  printf("");
+  fclose(file);
   return 0;
 }
