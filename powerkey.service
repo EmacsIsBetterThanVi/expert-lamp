@@ -4,3 +4,6 @@ Description=powerkey services for some Chrome Books running archlinux
 [Service]
 Type=forking
 ExecStart=/bin/powerkey
+
+[Install]
+WantedBy=multi-user.target default.target
