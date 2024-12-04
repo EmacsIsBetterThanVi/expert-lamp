@@ -51,7 +51,7 @@ int main(){
     }
   }
   }
-  printf("");
-  fclose(file);
+  printf("Forking complete, resuming previous behavior\n");
+  exit(0);
   return 0;
 }
