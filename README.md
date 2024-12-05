@@ -8,9 +8,11 @@ A program written in C that on specific cros devices (chromebooks) with Arch Lin
 # Installing CLSD
 1. Run make
 2. Run sudo make install
+3. Run sudo systemctl enable powerkey.service
 
 # Installing CLSD with expert-lamp
 1. Run sudo expert-lamp install croslockshutdown
+2. Run sudo systemctl enable powerkey.service
 
 The only dependency is gcc. 
 
