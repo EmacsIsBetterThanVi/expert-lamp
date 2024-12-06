@@ -23,7 +23,7 @@ int main(){
   bool down = false;
   time_t now = time(NULL);
   printf("Shutdown driver started at utime %d, forking to background.\n", now);
-  if (fork()){
+  if (!fork()){
   while(true){
     C = (char)fgetc(file);
     if(C == 'O' && scn==0){
